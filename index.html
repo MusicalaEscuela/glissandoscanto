@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MusiGliss · Entrenador Vocal | Musicala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,400&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   VARIABLES Y RESET
+   ============================================================ */
+:root {
+  --purple:      #7C4FA3;
+  --purple-deep: #5A3280;
+  --purple-mid:  #9B6BBE;
+  --lila:        #C5AADE;
+  --lila-soft:   #EBD9F8;
+  --pink:        #E8A8C8;
+  --pink-soft:   #FAEAF3;
+  --rose:        #F7D4E8;
+  --white:       #FFFFFF;
+  --bg:          #F7F3FC;
+  --text:        #35224A;
+  --text-mid:    #6B5280;
+  --text-light:  #9E88B5;
+  --border:      rgba(140,100,190,.15);
+  --shadow:      0 4px 24px rgba(100,60,160,.10);
+  --shadow-md:   0 8px 36px rgba(100,60,160,.16);
+  --glow:        0 18px 60px rgba(124,79,163,.22);
+  --r:           16px;
+  --r-lg:        24px;
+  --r-sm:        10px;
+}
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Nunito',sans-serif;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(232,168,200,.28), transparent 28%),
+    radial-gradient(circle at 92% 4%, rgba(197,170,222,.35), transparent 26%),
+    linear-gradient(180deg, #fbf7ff 0%, var(--bg) 48%, #fff 100%);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before,
+body::after {
+  content:'';
+  position:fixed;
+  width:280px;
+  height:280px;
+  border-radius:999px;
+  pointer-events:none;
+  z-index:-1;
+  filter:blur(4px);
+}
+body::before {
+  left:-130px;
+  bottom:18%;
+  background:rgba(232,168,200,.18);
+}
+body::after {
+  right:-120px;
+  top:34%;
+  background:rgba(124,79,163,.13);
+}
+.hidden { display:none !important; }
+
+/* ============================================================
+   TIPOGRAFÍA
+   ============================================================ */
+h1,h2,h3 { font-family:'Lora',serif; line-height:1.25; }
+h1 { font-size:clamp(1.8rem,5vw,3rem); font-weight:600; }
+h2 { font-size:clamp(1.1rem,2.5vw,1.5rem); }
+h3 { font-size:1rem; }
+p  { line-height:1.65; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+header {
+  background:
+    radial-gradient(circle at 18% 15%, rgba(255,255,255,.20), transparent 24%),
+    radial-gradient(circle at 88% 8%, rgba(232,168,200,.26), transparent 30%),
+    linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 48%, var(--purple-mid) 100%);
+  color:#fff;
+  padding:2rem 2rem 5.75rem;
+  position:relative;
+  overflow:hidden;
+  box-shadow:var(--glow);
+}
+header::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    url("data:image/svg+xml,%3Csvg width='42' height='42' viewBox='0 0 42 42' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='21' cy='21' r='2' fill='%23ffffff' fill-opacity='0.055'/%3E%3Cpath d='M8 31 C16 18 25 24 34 10' stroke='%23ffffff' stroke-opacity='.045' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+header::after {
+  content:'';
+  position:absolute;
+  width:520px;
+  height:520px;
+  right:-220px;
+  bottom:-310px;
+  border-radius:50%;
+  background:rgba(255,255,255,.10);
+  pointer-events:none;
+}
+.header-wave {
+  position:absolute;
+  bottom:-1px;
+  left:0;
+  width:100%;
+  height:70px;
+}
+.header-inner {
+  position:relative;
+  max-width:1100px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:1.15rem;
+  flex-wrap:wrap;
+}
+.logo-area {
+  width:74px;
+  height:74px;
+  border-radius:22px;
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:0 12px 32px rgba(35,16,55,.22), inset 0 0 0 1px rgba(124,79,163,.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:.55rem;
+  flex-shrink:0;
+}
+.logo-placeholder {
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg, var(--lila-soft), #fff);
+  border:1.5px solid rgba(124,79,163,.15);
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.8rem;
+  flex-shrink:0;
+}
+.logo-img {
+  width:100%;
+  height:100%;
+  border-radius:16px;
+  object-fit:contain;
+  flex-shrink:0;
+  display:block;
+}
+.header-text {
+  min-width:240px;
+}
+.header-text h1 {
+  color:#fff;
+  letter-spacing:-.6px;
+  text-shadow:0 2px 16px rgba(30,10,60,.18);
+}
+.header-text p  {
+  color:rgba(255,255,255,.80);
+  font-size:.95rem;
+  font-weight:600;
+  margin-top:.22rem;
+}
+.hero-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  margin-top:.65rem;
+  padding:.35rem .7rem;
+  border-radius:999px;
+  color:#fff;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.22);
+  font-size:.76rem;
+  font-weight:800;
+  letter-spacing:.02em;
+  backdrop-filter:blur(10px);
+}
+@media(max-width:560px){
+  header { padding:1.5rem 1.1rem 5.1rem; }
+  .header-inner { align-items:flex-start; }
+  .logo-area { width:64px; height:64px; border-radius:19px; }
+  .header-text { min-width:0; flex:1; }
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+main {
+  max-width:1100px;
+  margin:-42px auto 0;
+  padding:0 1.25rem 4rem;
+  position:relative;
+  z-index:1;
+}
+.grid-2 {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.25rem;
+  align-items:start;
+}
+@media(max-width:768px){ .grid-2{ grid-template-columns:1fr; } }
+
+/* ============================================================
+   TARJETA BASE
+   ============================================================ */
+.card {
+  background:rgba(255,255,255,.92);
+  border-radius:var(--r-lg);
+  box-shadow:var(--shadow);
+  padding:1.5rem;
+  border:1px solid var(--border);
+  animation:card-in .4s ease both;
+  backdrop-filter:blur(12px);
+}
+@keyframes card-in { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.card-title {
+  display:flex; align-items:center; gap:.45rem;
+  margin-bottom:1.1rem;
+  color:var(--purple-deep);
+}
+.card-title h2 { font-size:1.05rem; }
+
+/* ============================================================
+   EXPLICACIÓN
+   ============================================================ */
+.expl-card { margin-bottom:1.2rem; animation-delay:.0s; }
+.explanation-toggle {
+  display:flex; align-items:center; justify-content:space-between;
+  cursor:pointer; user-select:none;
+  width:100%; background:none; border:none; padding:0; font-family:inherit;
+}
+.explanation-toggle h2 { color:var(--purple-deep); font-size:1.05rem; display:flex; align-items:center; gap:.4rem; }
+.toggle-chevron { font-size:1rem; transition:transform .3s; color:var(--purple); }
+.toggle-chevron.open { transform:rotate(180deg); }
+.expl-body { display:none; margin-top:1rem; }
+.expl-body.open { display:block; }
+.expl-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:.875rem; margin-top:.5rem;
+}
+@media(max-width:600px){ .expl-grid{ grid-template-columns:1fr; } }
+.expl-block {
+  background:var(--lila-soft); border-radius:var(--r); padding:.875rem 1rem;
+}
+.expl-block h3 { color:var(--purple); font-size:.88rem; margin-bottom:.4rem; }
+.expl-block p, .expl-block li { font-size:.83rem; color:var(--text-mid); }
+.expl-block ul { padding-left:1rem; }
+.expl-block li { margin-bottom:.25rem; }
+.warning-box {
+  margin-top:.875rem;
+  background:var(--rose); border-radius:var(--r-sm); padding:.7rem .9rem;
+  font-size:.82rem; color:var(--purple-deep);
+  display:flex; align-items:flex-start; gap:.4rem;
+}
+
+/* ============================================================
+   EJERCICIOS
+   ============================================================ */
+.ex-card { margin-bottom:1.2rem; animation-delay:.07s; }
+.exercises-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:.8rem;
+}
+@media(max-width:900px){ .exercises-grid{ grid-template-columns:repeat(4,1fr); } }
+@media(max-width:640px){ .exercises-grid{ grid-template-columns:repeat(2,1fr); gap:.6rem; } }
+
+.exercise-card {
+  background:linear-gradient(180deg, #fff 0%, #fbf8ff 100%);
+  border:2px solid var(--border);
+  border-radius:var(--r); padding:.75rem .6rem;
+  cursor:pointer; text-align:center;
+  display:flex; flex-direction:column; align-items:center; gap:.3rem;
+  transition:all .2s ease;
+  min-height:128px;
+}
+.exercise-card:hover { border-color:var(--purple-mid); box-shadow:var(--shadow-md); transform:translateY(-2px); }
+.exercise-card.active {
+  border-color:var(--purple);
+  background:linear-gradient(150deg, var(--lila-soft) 0%, var(--white) 100%);
+  box-shadow:0 0 0 3px rgba(124,79,163,.15), var(--shadow-md);
+}
+.exercise-card svg { display:block; width:100%; max-width:80px; height:34px; }
+.ex-name { font-weight:800; font-size:.75rem; color:var(--text); line-height:1.2; }
+.ex-desc { font-size:.68rem; color:var(--text-light); line-height:1.3; }
+.ex-level {
+  display:inline-block; background:var(--lila-soft);
+  color:var(--purple); font-size:.63rem; font-weight:700;
+  padding:.12rem .4rem; border-radius:20px;
+  text-transform:uppercase; letter-spacing:.04em;
+}
+.exercise-card.active .ex-level { background:var(--purple); color:#fff; }
+
+/* ============================================================
+   CONTROLES
+   ============================================================ */
+.controls-card { animation-delay:.14s; }
+.ctrls-grid { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin-bottom:.875rem; }
+@media(max-width:460px){ .ctrls-grid{ grid-template-columns:1fr; } }
+.ctrl-group label {
+  display:block; font-size:.78rem; font-weight:700;
+  color:var(--text-mid); margin-bottom:.28rem; letter-spacing:.02em;
+}
+select {
+  appearance:none; -webkit-appearance:none;
+  background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237C4FA3' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") right .7rem center no-repeat;
+  border:1.5px solid var(--border); border-radius:var(--r-sm);
+  padding:.5rem 1.9rem .5rem .7rem;
+  font-family:'Nunito',sans-serif; font-size:.85rem; color:var(--text);
+  cursor:pointer; width:100%; transition:border-color .18s;
+}
+select:focus { outline:none; border-color:var(--purple); }
+
+.syllables-wrap { margin-bottom:.875rem; }
+.syllables-row { display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.28rem; }
+.syl-btn {
+  background:var(--bg); border:1.5px solid var(--border); border-radius:20px;
+  padding:.28rem .65rem; font-family:'Nunito',sans-serif;
+  font-size:.83rem; font-weight:700; color:var(--text-mid); cursor:pointer;
+  transition:all .18s;
+}
+.syl-btn:hover:not(.active) { border-color:var(--purple-mid); color:var(--purple); }
+.syl-btn.active { background:var(--purple); border-color:var(--purple); color:#fff; }
+
+.vol-wrap { margin-bottom:1.1rem; }
+.vol-row { display:flex; align-items:center; gap:.5rem; margin-top:.28rem; }
+.vol-row span { font-size:.8rem; color:var(--text-light); }
+input[type="range"] { flex:1; accent-color:var(--purple); cursor:pointer; }
+
+.btn-row { display:flex; flex-wrap:wrap; gap:.5rem; }
+.btn {
+  display:inline-flex; align-items:center; gap:.35rem;
+  padding:.58rem .95rem; border-radius:30px; border:none;
+  font-family:'Nunito',sans-serif; font-weight:700; font-size:.82rem;
+  cursor:pointer; transition:all .2s ease; white-space:nowrap;
+}
+.btn-primary { background:var(--purple); color:#fff; box-shadow:0 4px 14px rgba(124,79,163,.3); }
+.btn-primary:hover:not(:disabled) { background:var(--purple-deep); transform:translateY(-1px); box-shadow:0 6px 18px rgba(90,50,128,.38); }
+.btn-secondary { background:var(--pink-soft); color:var(--purple-deep); border:1.5px solid var(--pink); }
+.btn-secondary:hover:not(:disabled) { background:var(--rose); transform:translateY(-1px); }
+.btn-ghost { background:var(--bg); color:var(--text-mid); border:1.5px solid var(--border); }
+.btn-ghost:hover:not(:disabled) { background:var(--lila-soft); color:var(--purple); border-color:var(--lila); }
+.btn-stop { background:#fff0f0; color:#c04040; border:1.5px solid #f0c0c0; }
+.btn-stop:hover:not(:disabled) { background:#ffe0e0; }
+.btn:disabled { opacity:.42; cursor:not-allowed; transform:none !important; }
+
+.syl-tip-box {
+  margin-top:.875rem; background:var(--lila-soft); border-radius:var(--r-sm);
+  padding:.55rem .8rem; font-size:.78rem; color:var(--text-mid);
+}
+
+/* ============================================================
+   VISUALIZADOR
+   ============================================================ */
+.viz-card { animation-delay:.14s; display:flex; flex-direction:column; }
+.viz-wrap {
+  background:linear-gradient(180deg, var(--lila-soft), #ede2f8);
+  border-radius:var(--r-sm); border:1.5px solid var(--border);
+  padding:.75rem; flex:1;
+}
+#glissCanvas {
+  display:block; width:100%; height:175px;
+  border-radius:6px; background:transparent;
+}
+.viz-legend { display:flex; gap:1rem; margin-top:.5rem; font-size:.73rem; color:var(--text-light); }
+.legend-item { display:flex; align-items:center; gap:.3rem; }
+.legend-line { width:24px; height:3px; border-radius:2px; }
+.lg-guide { background:var(--purple); }
+.lg-voice { background:#e05a8a; }
+
+.status-bar {
+  display:flex; align-items:center; gap:.55rem;
+  margin-top:.75rem; padding:.55rem .9rem;
+  background:#fff; border-radius:var(--r-sm);
+  font-size:.8rem; color:var(--text-mid); box-shadow:var(--shadow);
+}
+.status-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--text-light); flex-shrink:0; transition:background .3s;
+}
+.status-dot.playing { background:var(--purple); animation:blink 1s ease infinite; }
+.status-dot.listening { background:#5cb85c; animation:blink 1.1s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+/* ============================================================
+   RETROALIMENTACIÓN
+   ============================================================ */
+#feedbackSection { margin-top:1.2rem; animation-delay:.0s; }
+.feedback-card { border-radius:var(--r); padding:1.1rem 1.3rem; border:1.5px solid var(--border); }
+.feedback-card.positive { background:#f0faf0; border-color:#90d080; }
+.feedback-card.neutral  { background:var(--lila-soft); border-color:var(--lila); }
+.feedback-card.improve  { background:var(--rose); border-color:var(--pink); }
+.feedback-card h3 { color:var(--purple-deep); font-size:.9rem; margin-bottom:.55rem; }
+.feedback-list { list-style:none; }
+.feedback-list li {
+  display:flex; align-items:flex-start; gap:.4rem;
+  font-size:.84rem; color:var(--text-mid); margin-bottom:.3rem; line-height:1.5;
+}
+.fi { flex-shrink:0; }
+
+/* ============================================================
+   LOGROS
+   ============================================================ */
+.ach-card { margin-top:1.2rem; animation-delay:.21s; }
+.ach-grid {
+  display:grid; grid-template-columns:repeat(5,1fr); gap:.65rem;
+}
+@media(max-width:700px){ .ach-grid{ grid-template-columns:repeat(3,1fr); } }
+@media(max-width:460px){ .ach-grid{ grid-template-columns:repeat(2,1fr); } }
+
+.ach-item {
+  background:var(--bg); border:1.5px solid var(--border); border-radius:var(--r);
+  padding:.8rem .5rem; text-align:center;
+  opacity:.38; filter:grayscale(1); transition:all .25s;
+}
+.ach-item.unlocked {
+  opacity:1; filter:none;
+  background:linear-gradient(150deg, var(--lila-soft), var(--white));
+  border-color:var(--lila); box-shadow:var(--shadow);
+  animation:ach-pop .5s ease;
+}
+@keyframes ach-pop { 0%{transform:scale(.8)} 60%{transform:scale(1.07)} 100%{transform:scale(1)} }
+.ach-icon { font-size:1.65rem; margin-bottom:.3rem; }
+.ach-name { font-size:.7rem; font-weight:700; color:var(--text); line-height:1.2; }
+.ach-desc { font-size:.63rem; color:var(--text-light); margin-top:.15rem; }
+
+/* ============================================================
+   MODO DOCENTE
+   ============================================================ */
+.teacher-card { margin-top:1.2rem; animation-delay:.28s; }
+.teacher-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:.65rem; margin-top:.875rem; }
+@media(max-width:640px){ .teacher-steps{ grid-template-columns:repeat(2,1fr); } }
+.t-step {
+  background:var(--lila-soft); border-radius:var(--r-sm); padding:.75rem .7rem;
+  text-align:center; border:1px solid var(--border);
+}
+.step-num {
+  width:26px; height:26px; background:var(--purple); color:#fff;
+  border-radius:50%; font-size:.75rem; font-weight:800;
+  display:inline-flex; align-items:center; justify-content:center; margin-bottom:.35rem;
+}
+.t-step p { font-size:.76rem; color:var(--text-mid); line-height:1.4; }
+.tip-box {
+  margin-top:.875rem; background:var(--pink-soft); border:1px solid var(--pink);
+  border-radius:var(--r-sm); padding:.75rem .875rem;
+  font-size:.83rem; color:var(--purple-deep); display:flex; align-items:flex-start; gap:.4rem;
+}
+
+/* ============================================================
+   PANTALLA GRANDE
+   ============================================================ */
+#bigScreen {
+  position:fixed; inset:0; background:var(--purple-deep); z-index:9999;
+  display:none; flex-direction:column; align-items:center; justify-content:center;
+  padding:3rem; text-align:center; cursor:pointer;
+}
+#bigScreen.show { display:flex; }
+#bigScreen h2 { color:#fff; font-size:clamp(2rem,7vw,5rem); line-height:1.2; max-width:900px; }
+#bigScreen p  { color:rgba(255,255,255,.55); font-size:.95rem; margin-top:1.5rem; }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+#toast {
+  position:fixed; bottom:1.5rem; right:1.5rem;
+  background:var(--purple-deep); color:#fff;
+  padding:.65rem 1.1rem; border-radius:30px;
+  font-size:.85rem; font-weight:600; max-width:300px;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);
+  transform:translateY(3rem); opacity:0;
+  transition:all .35s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none; z-index:8000;
+}
+#toast.show { transform:translateY(0); opacity:1; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer { text-align:center; padding:2rem; color:var(--text-light); font-size:.78rem; }
+footer a { color:var(--purple); text-decoration:none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    scroll-behavior:auto !important;
+    transition-duration:.01ms !important;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <div class="logo-area" aria-label="Logo de Musicala">
+      <!-- Deja logo.png en la misma carpeta que este index.html -->
+      <img src="logo.png" alt="Musicala" class="logo-img" id="brandLogo">
+      <div class="logo-placeholder" id="lgEm" style="display:none">🎵</div>
+    </div>
+    <div class="header-text">
+      <h1>MusiGliss</h1>
+      <p>Entrenador visual de glissandos vocales · Musicala</p>
+      <div class="hero-badge">🎙️ Práctica vocal guiada · visual · progresiva</div>
+    </div>
+  </div>
+  <svg class="header-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" fill="var(--bg)">
+    <path d="M0,24 C260,68 610,2 950,42 C1160,67 1325,24 1440,20 L1440,70 L0,70 Z"/>
+  </svg>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main>
+
+  <!-- 1. EXPLICACIÓN -->
+  <div class="card expl-card">
+    <button class="explanation-toggle" id="explBtn" aria-expanded="false">
+      <h2>📖 ¿Qué es un glissando vocal?</h2>
+      <span class="toggle-chevron" id="chevron">▼</span>
+    </button>
+    <div class="expl-body" id="explBody">
+      <div class="expl-grid">
+        <div class="expl-block">
+          <h3>🎙️ ¿Qué es?</h3>
+          <p>Un glissando vocal es un deslizamiento continuo de la voz entre dos alturas sin saltos abruptos. Como una sirena: la voz <em>viaja</em> fluidamente de un punto a otro.</p>
+        </div>
+        <div class="expl-block">
+          <h3>🎯 ¿Para qué sirve?</h3>
+          <p>Desarrolla control de altura, conexión de registros vocales, flexibilidad de los pliegues vocales y conciencia auditiva. Es fundamental en el calentamiento vocal.</p>
+        </div>
+        <div class="expl-block">
+          <h3>↕️ Tipos principales</h3>
+          <ul>
+            <li><strong>Ascendente:</strong> de grave a agudo.</li>
+            <li><strong>Descendente:</strong> de agudo a grave.</li>
+            <li><strong>Combinado:</strong> sube y baja, o baja y sube.</li>
+            <li><strong>Ola / Zigzag:</strong> variaciones con más movimiento.</li>
+          </ul>
+        </div>
+        <div class="expl-block">
+          <h3>✅ Recomendaciones</h3>
+          <ul>
+            <li>Mantén el aire fluyendo constantemente.</li>
+            <li>Relaja mandíbula, cuello y hombros.</li>
+            <li>No empujes la voz: debe ser liviana.</li>
+            <li>Practica con volumen cómodo.</li>
+            <li>No grites ni fuerces extremos del rango.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="warning-box">
+        ⚠️ <span><strong>Importante:</strong> si sientes dolor, tensión en la garganta o molestia, detente y descansa. Este ejercicio debe sentirse liviano y relajado.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SELECTOR DE EJERCICIOS -->
+  <div class="card ex-card">
+    <div class="card-title"><span>🎼</span><h2>Elige tu ejercicio</h2></div>
+    <div class="exercises-grid" id="exercisesGrid"></div>
+  </div>
+
+  <!-- 3. CONTROLES + VISUALIZADOR -->
+  <div class="grid-2">
+
+    <!-- CONTROLES -->
+    <div class="card controls-card">
+      <div class="card-title"><span>🎛️</span><h2>Controles</h2></div>
+
+      <div class="ctrls-grid">
+        <div class="ctrl-group">
+          <label for="rangeSelect">🎚️ Rango vocal</label>
+          <select id="rangeSelect">
+            <option value="grave">Grave (A2–A3)</option>
+            <option value="medio" selected>Medio (F3–F4)</option>
+            <option value="agudo">Agudo (C4–C5)</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
+          <label for="durationSelect">⏱️ Duración</label>
+          <select id="durationSelect">
+            <option value="2">2 segundos</option>
+            <option value="4" selected>4 segundos</option>
+            <option value="6">6 segundos</option>
+            <option value="8">8 segundos</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
+          <label for="diffSelect">⭐ Dificultad</label>
+          <select id="diffSelect">
+            <option value="inicial" selected>Inicial</option>
+            <option value="intermedio">Intermedio</option>
+            <option value="avanzado">Avanzado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="syllables-wrap">
+        <label style="font-size:.78rem;font-weight:700;color:var(--text-mid);letter-spacing:.02em">🗣️ Sílaba sugerida</label>
+        <div class="syllables-row" id="sylGrid">
+          <button class="syl-btn active" data-syl="uuu">uuu</button>
+          <button class="syl-btn" data-syl="mmm">mmm</button>
+          <button class="syl-btn" data-syl="ng">ng</button>
+          <button class="syl-btn" data-syl="aaa">aaa</button>
+          <button class="syl-btn" data-syl="ooo">ooo</button>
+        </div>
+      </div>
+
+      <div class="vol-wrap">
+        <label style="font-size:.78rem;font-weight:700;color:var(--text-mid)">🔊 Volumen guía: <span id="volLabel">60%</span></label>
+        <div class="vol-row">
+          <span>🔇</span>
+          <input type="range" id="volSlider" min="0" max="100" value="60">
+          <span>🔊</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary"   id="btnPlay">▶ Escuchar guía</button>
+        <button class="btn btn-secondary" id="btnMic">🎤 Con micrófono</button>
+        <button class="btn btn-stop"      id="btnStop" disabled>⏹ Detener</button>
+        <button class="btn btn-ghost"     id="btnRandom">🎲 Reto</button>
+      </div>
+
+      <div class="syl-tip-box">
+        <strong>Sílaba:</strong> <span id="sylName">uuu</span> —
+        <span id="sylTip">Ideal para calentamiento suave. Mantén resonancia en los labios.</span>
+      </div>
+    </div>
+
+    <!-- VISUALIZADOR -->
+    <div class="card viz-card">
+      <div class="card-title"><span>〰️</span><h2>Visualizador</h2></div>
+      <div class="viz-wrap">
+        <canvas id="glissCanvas"></canvas>
+        <div class="viz-legend">
+          <div class="legend-item"><div class="legend-line lg-guide"></div><span>Curva guía</span></div>
+          <div class="legend-item"><div class="legend-line lg-voice"></div><span>Tu voz</span></div>
+        </div>
+      </div>
+      <div class="status-bar">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Selecciona un ejercicio y pulsa ▶ para empezar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. RETROALIMENTACIÓN -->
+  <div id="feedbackSection" class="hidden">
+    <div class="card feedback-card" id="fbCard">
+      <h3 id="fbTitle">Retroalimentación</h3>
+      <ul class="feedback-list" id="fbList"></ul>
+    </div>
+  </div>
+
+  <!-- 5. LOGROS -->
+  <div class="card ach-card">
+    <div class="card-title"><span>🏆</span><h2>Logros</h2></div>
+    <div class="ach-grid" id="achGrid"></div>
+  </div>
+
+  <!-- 6. MODO DOCENTE -->
+  <div class="card teacher-card">
+    <div class="card-title"><span>👩‍🏫</span><h2>Herramientas para clase</h2></div>
+    <div class="teacher-steps">
+      <div class="t-step"><div class="step-num">1</div><p><strong>Escuchar</strong><br>El estudiante escucha la guía sin cantar.</p></div>
+      <div class="t-step"><div class="step-num">2</div><p><strong>Imitar</strong><br>Canta sin micrófono. Solo por el placer de moverse vocalmente.</p></div>
+      <div class="t-step"><div class="step-num">3</div><p><strong>Practicar</strong><br>Activa el micrófono y observa la curva de tu voz en pantalla.</p></div>
+      <div class="t-step"><div class="step-num">4</div><p><strong>Explorar</strong><br>Usa el glissando libre para improvisar de forma creativa.</p></div>
+    </div>
+    <div class="tip-box"><span>💡</span><span id="teacherTip">Cargando sugerencia del día…</span></div>
+    <div class="btn-row" style="margin-top:.875rem">
+      <button class="btn btn-primary"   id="btnTeacherRnd">🎲 Ejercicio aleatorio para clase</button>
+      <button class="btn btn-secondary" id="btnBigScreen">🖥️ Pantalla grande</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- PANTALLA GRANDE -->
+<div id="bigScreen" role="dialog" tabindex="-1">
+  <h2 id="bigScreenText">Glissando ascendente ↑</h2>
+  <p>Toca en cualquier lugar para cerrar</p>
+</div>
+
+<!-- TOAST -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<footer>
+  <p>MusiGliss · <a href="#">Musicala</a> · Educación artística con alma, método y un poquito de magia vocal 🎵</p>
+</footer>
+
+<script>
+/* ============================================================
+   MUSIGLISS — APP COMPLETA
+   Módulos inline: exercises · audio · pitch-detector · 
+                   visualizer · feedback · achievements · app
+   ============================================================ */
+
+'use strict';
+
+/* ============================================================
+   ■ MÓDULO: EJERCICIOS
+   ============================================================ */
+const EXERCISES = [
+  {
+    id:'ascendente', name:'Ascendente', emoji:'📈',
+    desc:'Sube de grave a agudo', level:'Inicial',
+    // SVG path en viewBox 0 0 80 40 (y=6 agudo, y=34 grave)
+    path:'M4,34 C25,28 55,14 76,6',
+    // curve(t) → ratio 0=grave, 1=agudo
+    curve: t => t,
+    bigText:'↑ Desliza la voz hacia arriba, como una sirena que sube'
+  },
+  {
+    id:'descendente', name:'Descendente', emoji:'📉',
+    desc:'Baja de agudo a grave', level:'Inicial',
+    path:'M4,6 C25,12 55,26 76,34',
+    curve: t => 1 - t,
+    bigText:'↓ Desliza la voz hacia abajo, como una sirena que baja'
+  },
+  {
+    id:'asc-desc', name:'Asc – Desc', emoji:'⛰️',
+    desc:'Sube hasta la mitad, luego baja', level:'Inicial',
+    path:'M4,34 C22,8 58,8 76,34',
+    curve: t => t < .5 ? t*2 : (1-t)*2,
+    bigText:'↑↓ Sube la voz hasta la mitad y luego bájala suavemente'
+  },
+  {
+    id:'desc-asc', name:'Desc – Asc', emoji:'🏔️',
+    desc:'Baja hasta la mitad, luego sube', level:'Inicial',
+    path:'M4,6 C22,32 58,32 76,6',
+    curve: t => t < .5 ? 1-t*2 : (t-.5)*2,
+    bigText:'↓↑ Baja la voz hasta la mitad y luego súbela suavemente'
+  },
+  {
+    id:'ola', name:'Ola Vocal', emoji:'🌊',
+    desc:'Movimiento ondulante tipo seno', level:'Intermedio',
+    path:'M4,20 C18,6 32,6 40,20 C48,34 62,34 76,20',
+    curve: t => .5 + .5*Math.sin(t*Math.PI*2 - Math.PI*.5),
+    bigText:'〰️ Mueve la voz en olas suaves y continuas, como el mar'
+  },
+  {
+    id:'zigzag', name:'Zigzag Suave', emoji:'⚡',
+    desc:'Varios cambios controlados de dirección', level:'Intermedio',
+    path:'M4,34 L23,6 L42,34 L61,6 L76,20',
+    curve: t => {
+      const p = (t*3)%1;
+      return Math.floor(t*3)%2 === 0 ? p : 1-p;
+    },
+    bigText:'↑↓↑ Zigzag vocal: sube y baja con control, sin saltos'
+  },
+  {
+    id:'libre', name:'Glissando Libre', emoji:'🕊️',
+    desc:'Sin guía fija: explora tu rango', level:'Avanzado',
+    path:'M4,20 C15,6 28,32 42,18 C55,6 66,30 76,14',
+    curve: t => .5 + .4*Math.sin(t*4.2+.8),
+    bigText:'🕊️ Glissando libre: explora tu voz con libertad creativa'
+  },
+  {
+    id:'reto', name:'Reto Aleatorio', emoji:'🎲',
+    desc:'Un ejercicio sorpresa cada vez', level:'Variable',
+    path:'M4,20 L18,8 L34,30 L52,10 L68,28 L76,16',
+    curve: null, // se resuelve en runtime
+    bigText:'🎲 ¡Reto sorpresa! Sigue la curva lo mejor que puedas'
+  }
+];
+
+const SYL_TIPS = {
+  uuu: 'Ideal para calentamiento suave. Mantén resonancia en labios.',
+  mmm: 'Excelente para sentir la vibración. Labios cerrados y relajados.',
+  ng:  'Activa resonadores nasales. Muy útil para registros altos.',
+  aaa: 'Abre bien la boca. Siente la columna de aire constante.',
+  ooo: 'Redondeada y resonante. Suaviza el paso entre registros.'
+};
+
+const TEACHER_TIPS = [
+  'Pide que los estudiantes imaginen que son sirenas de ambulancia bajando el volumen.',
+  'Usa el gesto de la mano para guiar visualmente el movimiento de la voz: sube o baja la palma.',
+  'Comienza siempre en zona media del rango para no forzar ningún extremo.',
+  'El zigzag suave es excelente para trabajar agilidad vocal en grupos.',
+  'La ola vocal conecta registros y puede usarse como ejercicio de transición de pasaje.',
+  'Recuérdales: no hay nota "meta". El viaje es el objetivo, no llegar a ningún sitio específico.',
+  'Pídeles que cierren los ojos y escuchen el tono guía antes de imitar.',
+  'Para grupos mixtos, usa el rango "medio" como punto de partida universal.'
+];
+
+/* ============================================================
+   ■ ESTADO DE LA APLICACIÓN
+   ============================================================ */
+const S = {
+  exercise:  EXERCISES[0],
+  resolvedReto: null,        // exercise resuelto cuando id === 'reto'
+  range:     'medio',
+  duration:  4,
+  difficulty:'inicial',
+  syllable:  'uuu',
+  volume:    0.6,
+  mode:      'IDLE',         // IDLE | PLAYING | LISTENING | DONE
+  audioCtx:  null,
+  osc:       null,
+  gainNode:  null,
+  analyser:  null,
+  micStream: null,
+  rafId:     null,
+  startTime: null,
+  detectedPitches: [],       // [{t, freq}]
+  achievements: JSON.parse(localStorage.getItem('mg-ach') || '{}'),
+  completed:    new Set(JSON.parse(localStorage.getItem('mg-done') || '[]')),
+};
+
+function getRangeFreqs() {
+  if (S.range === 'grave') return [110, 220];
+  if (S.range === 'agudo') return [261, 523];
+  return [175, 349]; // medio
+}
+
+function resolveExercise(ex) {
+  if (ex.id !== 'reto') return ex;
+  if (!S.resolvedReto) {
+    const pool = EXERCISES.filter(e => e.id !== 'reto' && e.id !== 'libre');
+    S.resolvedReto = pool[Math.floor(Math.random() * pool.length)];
+  }
+  return S.resolvedReto;
+}
+
+/* ============================================================
+   ■ MÓDULO: AUDIO ENGINE
+   ============================================================ */
+function getFreqAt(ex, t) {
+  const [lo, hi] = getRangeFreqs();
+  const curve = ex.curve || (t => t);
+  return lo + (hi - lo) * Math.max(0, Math.min(1, curve(t)));
+}
+
+function buildFreqCurve(ex, n = 512) {
+  const arr = new Float32Array(n);
+  for (let i = 0; i < n; i++) arr[i] = getFreqAt(ex, i / (n-1));
+  return arr;
+}
+
+function ensureACtx() {
+  if (!S.audioCtx || S.audioCtx.state === 'closed') {
+    S.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (S.audioCtx.state === 'suspended') S.audioCtx.resume();
+  return S.audioCtx;
+}
+
+function stopAudio() {
+  try { if (S.osc) { S.osc.stop(); S.osc.disconnect(); } } catch {}
+  try { if (S.gainNode) S.gainNode.disconnect(); } catch {}
+  S.osc = null; S.gainNode = null;
+}
+
+function playGuide(ex, onEnd) {
+  stopAudio();
+  const resolved = resolveExercise(ex);
+  const ctx = ensureACtx();
+  const dur = S.duration;
+
+  const osc    = ctx.createOscillator();
+  const gain   = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
+
+  osc.type = 'sine';
+  filter.type = 'lowpass';
+  filter.frequency.value = 1800;
+  osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+
+  // Envolvente suave para evitar clicks
+  const t0 = ctx.currentTime;
+  gain.gain.setValueAtTime(0, t0);
+  gain.gain.linearRampToValueAtTime(S.volume * 0.45, t0 + 0.08);
+  gain.gain.setValueAtTime(S.volume * 0.45, t0 + dur - 0.12);
+  gain.gain.linearRampToValueAtTime(0, t0 + dur);
+
+  // Curva de frecuencia del glissando
+  const curve = buildFreqCurve(resolved);
+  osc.frequency.setValueCurveAtTime(curve, t0, dur);
+
+  if (onEnd) osc.onended = onEnd;
+  osc.start(t0);
+  osc.stop(t0 + dur + 0.05);
+
+  S.osc = osc; S.gainNode = gain;
+}
+
+/* ============================================================
+   ■ MÓDULO: PITCH DETECTOR (autocorrelación)
+   ============================================================ */
+function detectPitch(analyser, sampleRate) {
+  const SIZE = 2048;
+  const buf  = new Float32Array(SIZE);
+  analyser.getFloatTimeDomainData(buf);
+
+  // RMS — descartar señal débil (ruido de fondo)
+  let rms = 0;
+  for (let i = 0; i < SIZE; i++) rms += buf[i] * buf[i];
+  rms = Math.sqrt(rms / SIZE);
+  if (rms < 0.009) return -1;
+
+  // Autocorrelación en el rango de voz humana (70–900 Hz)
+  const minPeriod = Math.floor(sampleRate / 900);
+  const maxPeriod = Math.floor(sampleRate / 70);
+  let bestOffset = -1, bestCorr = -Infinity;
+
+  for (let offset = minPeriod; offset <= maxPeriod; offset++) {
+    let corr = 0;
+    const N = SIZE - offset;
+    for (let i = 0; i < N; i++) corr += buf[i] * buf[i + offset];
+    corr /= N;
+    if (corr > bestCorr) { bestCorr = corr; bestOffset = offset; }
+  }
+
+  if (bestOffset === -1 || bestCorr < 0.004) return -1;
+  return sampleRate / bestOffset;
+}
+
+async function startMic() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio:true, video:false });
+    S.micStream = stream;
+    const ctx     = ensureACtx();
+    const source  = ctx.createMediaStreamSource(stream);
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 2048;
+    analyser.smoothingTimeConstant = 0.55;
+    source.connect(analyser);
+    S.analyser = analyser;
+    return true;
+  } catch (e) {
+    console.warn('Mic:', e);
+    return false;
+  }
+}
+
+function stopMic() {
+  if (S.micStream) { S.micStream.getTracks().forEach(t => t.stop()); S.micStream = null; }
+  S.analyser = null;
+}
+
+/* ============================================================
+   ■ MÓDULO: VISUALIZADOR (Canvas)
+   ============================================================ */
+const canvas = document.getElementById('glissCanvas');
+const ctx2   = canvas.getContext('2d');
+
+function resizeCanvas() {
+  const r = canvas.getBoundingClientRect();
+  canvas.width  = r.width  * devicePixelRatio;
+  canvas.height = r.height * devicePixelRatio;
+  ctx2.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+}
+
+function logical() {
+  return { w: canvas.width/devicePixelRatio, h: canvas.height/devicePixelRatio };
+}
+
+function freqToY(freq) {
+  const [lo, hi] = getRangeFreqs();
+  const { h } = logical();
+  const pad = 18;
+  const ratio = Math.max(0, Math.min(1, (freq - lo) / (hi - lo)));
+  return h - pad - ratio * (h - pad*2);
+}
+
+function drawCanvas(ex, progress, pitches) {
+  const { w, h } = logical();
+  const resolved = resolveExercise(ex);
+  const N = 300;
+
+  ctx2.clearRect(0, 0, w, h);
+
+  // Cuadrícula sutil
+  ctx2.strokeStyle = 'rgba(180,140,220,.14)';
+  ctx2.lineWidth = 1;
+  ctx2.setLineDash([3,6]);
+  for (let i = 1; i < 4; i++) {
+    const y = h/4*i;
+    ctx2.beginPath(); ctx2.moveTo(0,y); ctx2.lineTo(w,y); ctx2.stroke();
+  }
+  ctx2.setLineDash([]);
+
+  // Etiquetas de frecuencia
+  const [lo, hi] = getRangeFreqs();
+  ctx2.fillStyle = 'rgba(124,79,163,.4)';
+  ctx2.font = `10px Nunito, sans-serif`;
+  ctx2.textAlign = 'left';
+  ctx2.fillText(`${Math.round(hi)} Hz`, 4, 14);
+  ctx2.fillText(`${Math.round(lo)} Hz`, 4, h - 5);
+
+  // ── Curva fantasma (guía completa, tenue) ──────────────────
+  ctx2.strokeStyle = 'rgba(180,140,220,.28)';
+  ctx2.lineWidth = 3; ctx2.lineCap = 'round'; ctx2.lineJoin = 'round';
+  ctx2.beginPath();
+  for (let i = 0; i <= N; i++) {
+    const x = (i/N)*w, y = freqToY(getFreqAt(resolved, i/N));
+    i === 0 ? ctx2.moveTo(x,y) : ctx2.lineTo(x,y);
+  }
+  ctx2.stroke();
+
+  // ── Curva guía animada (hasta progress) ───────────────────
+  if (progress > 0) {
+    const pts = Math.floor(N * progress);
+    const grad = ctx2.createLinearGradient(0,0,w,0);
+    grad.addColorStop(0,'#A060D0'); grad.addColorStop(.6,'#7C4FA3'); grad.addColorStop(1,'#5A3280');
+    ctx2.strokeStyle = grad;
+    ctx2.lineWidth = 3.5;
+    ctx2.beginPath();
+    for (let i = 0; i <= pts; i++) {
+      const x = (i/N)*w, y = freqToY(getFreqAt(resolved, i/N));
+      i === 0 ? ctx2.moveTo(x,y) : ctx2.lineTo(x,y);
+    }
+    ctx2.stroke();
+
+    // Cabeza animada
+    const tHead = pts/N;
+    const xH = tHead*w, yH = freqToY(getFreqAt(resolved, tHead));
+    ctx2.beginPath(); ctx2.arc(xH, yH, 6, 0, Math.PI*2);
+    ctx2.fillStyle = '#7C4FA3'; ctx2.fill();
+    ctx2.strokeStyle = '#fff'; ctx2.lineWidth = 2; ctx2.stroke();
+  }
+
+  // ── Línea de voz detectada ─────────────────────────────────
+  if (pitches && pitches.length > 1) {
+    ctx2.strokeStyle = 'rgba(224,90,138,.7)';
+    ctx2.lineWidth = 2.5; ctx2.lineCap = 'round';
+    ctx2.beginPath();
+    let first = true;
+    for (const p of pitches) {
+      const x = p.t*w, y = freqToY(p.freq);
+      first ? (ctx2.moveTo(x,y), first=false) : ctx2.lineTo(x,y);
+    }
+    ctx2.stroke();
+    // Última posición
+    const last = pitches[pitches.length-1];
+    ctx2.beginPath(); ctx2.arc(last.t*w, freqToY(last.freq), 4.5, 0, Math.PI*2);
+    ctx2.fillStyle = '#E05A8A'; ctx2.fill();
+    ctx2.strokeStyle = '#fff'; ctx2.lineWidth = 1.5; ctx2.stroke();
+  }
+}
+
+/* ============================================================
+   ■ MÓDULO: RETROALIMENTACIÓN
+   ============================================================ */
+function analyzePractice(pitches, ex) {
+  const resolved = resolveExercise(ex);
+
+  if (!pitches || pitches.length < 5) {
+    return {
+      cardClass: 'improve',
+      items: [
+        { icon:'🎤', text:'La app no detectó suficiente sonido. Acércate al micrófono o canta con más volumen.' },
+        { icon:'💡', text:'Prueba en un lugar con menos ruido de fondo.' }
+      ]
+    };
+  }
+
+  const [lo, hi] = getRangeFreqs();
+  const rangeHz  = hi - lo;
+  const freqs    = pitches.map(p => p.freq);
+  const half     = Math.floor(freqs.length/2);
+  const avgA     = freqs.slice(0,half).reduce((a,b)=>a+b,0)/half;
+  const avgB     = freqs.slice(half).reduce((a,b)=>a+b,0)/(freqs.length-half);
+  const usedRange = Math.max(...freqs) - Math.min(...freqs);
+
+  // Saltos bruscos
+  let jumps = 0;
+  for (let i = 1; i < freqs.length; i++) {
+    if (Math.abs(freqs[i]-freqs[i-1]) > rangeHz*.28) jumps++;
+  }
+  const jumpRatio = jumps / freqs.length;
+
+  const items = [];
+  let cardClass = 'neutral';
+
+  // Dirección
+  let dirOK = false;
+  const id = resolved.id;
+  if      (id==='ascendente')  dirOK = avgB > avgA + rangeHz*.08;
+  else if (id==='descendente') dirOK = avgB < avgA - rangeHz*.08;
+  else if (id==='asc-desc' || id==='desc-asc') dirOK = usedRange > rangeHz*.15;
+  else    dirOK = usedRange > rangeHz*.1;
+
+  if (dirOK) {
+    items.push({ icon:'✅', text:'Buen recorrido. La voz se movió en la dirección esperada.' });
+    cardClass = 'positive';
+  } else {
+    items.push({ icon:'🔄', text:'Intenta que la voz siga más claramente la dirección de la curva guía.' });
+    cardClass = 'improve';
+  }
+
+  // Continuidad
+  if      (jumpRatio < .08)  items.push({ icon:'🌊', text:'Excelente continuidad. La voz fluyó de forma deslizada y uniforme.' });
+  else if (jumpRatio < .22)  items.push({ icon:'💡', text:'Algunos saltos detectados. Piensa en deslizar la voz como una sirena.' });
+  else    { items.push({ icon:'🎯', text:'Intenta evitar los saltos. La clave del glissando es el deslizamiento continuo.' }); if(cardClass!=='positive') cardClass='improve'; }
+
+  // Rango
+  if      (usedRange < rangeHz*.08) items.push({ icon:'📏', text:'La voz se movió en un rango muy pequeño. Intenta exagerar un poco más.' });
+  else if (usedRange > rangeHz*.45) items.push({ icon:'🚀', text:'¡Buen rango de exploración! La voz cubrió un espacio muy amplio.' });
+
+  const tips = [
+    '¡Cada intento mejora tu control vocal!',
+    'Recuerda: la voz debe sentirse liviana, sin tensión.',
+    'Prueba hacerlo más lento para mayor precisión.',
+    'Ahora intenta con una sílaba diferente. ¿Cómo cambia la sensación?'
+  ];
+  items.push({ icon:'🎵', text: tips[Math.floor(Math.random()*tips.length)] });
+
+  return { cardClass, items };
+}
+
+/* ============================================================
+   ■ MÓDULO: LOGROS
+   ============================================================ */
+const ACHIEVEMENTS = [
+  { id:'primerGlissando', icon:'🎉', name:'Primer Glissando',     desc:'Completaste tu primera práctica' },
+  { id:'sirena',          icon:'🧜', name:'Sirena Suave',         desc:'Practicaste la Ola Vocal' },
+  { id:'controlAsc',      icon:'⬆️', name:'Control Ascendente',   desc:'Practicaste el glissando ascendente' },
+  { id:'controlDesc',     icon:'⬇️', name:'Control Descendente',  desc:'Practicaste el descendente' },
+  { id:'explorador',      icon:'🗺️', name:'Explorador Vocal',     desc:'Probaste 4 ejercicios distintos' },
+];
+
+function checkAchievements() {
+  const done = S.completed;
+  const unlock = id => {
+    if (!S.achievements[id]) {
+      S.achievements[id] = true;
+      localStorage.setItem('mg-ach', JSON.stringify(S.achievements));
+      const a = ACHIEVEMENTS.find(x=>x.id===id);
+      if (a) showToast(`🏆 Logro: ${a.name}!`);
+      renderAchievements();
+    }
+  };
+  if (done.size >= 1)           unlock('primerGlissando');
+  if (done.has('ola'))          unlock('sirena');
+  if (done.has('ascendente'))   unlock('controlAsc');
+  if (done.has('descendente'))  unlock('controlDesc');
+  if (done.size >= 4)           unlock('explorador');
+}
+
+function renderAchievements() {
+  const grid = document.getElementById('achGrid');
+  grid.innerHTML = '';
+  for (const a of ACHIEVEMENTS) {
+    const el = document.createElement('div');
+    el.className = 'ach-item' + (S.achievements[a.id] ? ' unlocked' : '');
+    el.title = S.achievements[a.id] ? '¡Desbloqueado!' : 'Aún no desbloqueado';
+    el.innerHTML = `<div class="ach-icon">${a.icon}</div><div class="ach-name">${a.name}</div><div class="ach-desc">${a.desc}</div>`;
+    grid.appendChild(el);
+  }
+}
+
+/* ============================================================
+   ■ MÓDULO: UI
+   ============================================================ */
+function renderExercises() {
+  const grid = document.getElementById('exercisesGrid');
+  grid.innerHTML = '';
+  for (const ex of EXERCISES) {
+    const el = document.createElement('div');
+    el.className = 'exercise-card' + (ex === S.exercise ? ' active' : '');
+    el.dataset.id = ex.id;
+    el.innerHTML = `
+      <svg viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="${ex.path}" stroke="#7C4FA3" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="ex-name">${ex.emoji} ${ex.name}</div>
+      <div class="ex-desc">${ex.desc}</div>
+      <span class="ex-level">${ex.level}</span>
+    `;
+    el.addEventListener('click', () => selectExercise(ex));
+    grid.appendChild(el);
+  }
+}
+
+function selectExercise(ex) {
+  // Resolver reto aleatorio
+  if (ex.id === 'reto') {
+    const pool = EXERCISES.filter(e=>e.id!=='reto'&&e.id!=='libre');
+    S.resolvedReto = pool[Math.floor(Math.random()*pool.length)];
+  } else {
+    S.resolvedReto = null;
+  }
+  S.exercise = ex;
+
+  document.querySelectorAll('.exercise-card').forEach(c =>
+    c.classList.toggle('active', c.dataset.id === ex.id)
+  );
+  resizeCanvas();
+  drawCanvas(ex, 0, null);
+  setStatus('idle', `Ejercicio: ${ex.name}${ex.id==='reto'?' (reto aleatorio)':''}. Pulsa ▶ para escuchar.`);
+}
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+function setStatus(type, text) {
+  const dot = document.getElementById('statusDot');
+  dot.className = 'status-dot' + (type==='playing'?' playing':type==='listening'?' listening':'');
+  document.getElementById('statusText').textContent = text;
+}
+
+function setBtns(mode) {
+  document.getElementById('btnPlay').disabled   = mode !== 'IDLE';
+  document.getElementById('btnMic').disabled    = mode !== 'IDLE';
+  document.getElementById('btnStop').disabled   = mode === 'IDLE' || mode === 'DONE';
+  document.getElementById('btnRandom').disabled = mode !== 'IDLE';
+}
+
+function showFeedback({ cardClass, items }) {
+  const section = document.getElementById('feedbackSection');
+  const card    = document.getElementById('fbCard');
+  const list    = document.getElementById('fbList');
+  const title   = document.getElementById('fbTitle');
+
+  card.className = `card feedback-card ${cardClass}`;
+  title.textContent = cardClass==='positive'?'🎉 ¡Muy bien!':cardClass==='improve'?'💪 Sigue practicando':'📊 Resultado';
+  list.innerHTML = '';
+  for (const item of items) {
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="fi">${item.icon}</span><span>${item.text}</span>`;
+    list.appendChild(li);
+  }
+  section.classList.remove('hidden');
+  section.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+/* ============================================================
+   ■ BUCLES DE ANIMACIÓN
+   ============================================================ */
+function cancelAnim() {
+  if (S.rafId) { cancelAnimationFrame(S.rafId); S.rafId = null; }
+}
+
+// Solo reproduce guía visual + audio, sin micrófono
+function startPlayMode(ex, onDone) {
+  cancelAnim();
+  S.startTime = performance.now();
+  S.mode = 'PLAYING';
+  setBtns('PLAYING');
+  const dur = S.duration * 1000;
+
+  const tick = () => {
+    const prog = Math.min((performance.now()-S.startTime)/dur, 1);
+    resizeCanvas();
+    drawCanvas(ex, prog, null);
+    if (prog < 1 && S.mode === 'PLAYING') S.rafId = requestAnimationFrame(tick);
+    else if (prog >= 1 && S.mode === 'PLAYING') onDone && onDone();
+  };
+  S.rafId = requestAnimationFrame(tick);
+}
+
+// Reproduce guía + captura micrófono + dibuja voz
+function startListenMode(ex) {
+  cancelAnim();
+  S.startTime = performance.now();
+  S.detectedPitches = [];
+  S.mode = 'LISTENING';
+  setBtns('LISTENING');
+  const dur = S.duration * 1000;
+
+  const tick = () => {
+    if (S.mode !== 'LISTENING') return;
+    const elapsed = performance.now() - S.startTime;
+    const prog = Math.min(elapsed / dur, 1);
+    const t    = elapsed / dur;
+
+    // Detección de pitch
+    if (S.analyser && S.audioCtx) {
+      const freq = detectPitch(S.analyser, S.audioCtx.sampleRate);
+      if (freq > 50 && freq < 1200) {
+        S.detectedPitches.push({ t, freq });
+      }
+    }
+
+    resizeCanvas();
+    drawCanvas(ex, prog, S.detectedPitches);
+
+    if (prog < 1) {
+      S.rafId = requestAnimationFrame(tick);
+    } else {
+      finishListen(ex);
+    }
+  };
+  S.rafId = requestAnimationFrame(tick);
+}
+
+function finishListen(ex) {
+  cancelAnim();
+  stopAudio();
+  stopMic();
+  S.mode = 'DONE';
+  setBtns('DONE');
+  setStatus('idle', '¡Práctica terminada! Revisa la retroalimentación.');
+
+  // Guardar ejercicio completado
+  const id = (ex.id==='reto' && S.resolvedReto) ? S.resolvedReto.id : ex.id;
+  S.completed.add(id);
+  localStorage.setItem('mg-done', JSON.stringify([...S.completed]));
+  checkAchievements();
+
+  // Feedback
+  const result = analyzePractice(S.detectedPitches, ex);
+  showFeedback(result);
+
+  setTimeout(() => { S.mode = 'IDLE'; setBtns('IDLE'); }, 400);
+}
+
+/* ============================================================
+   ■ EVENT LISTENERS
+   ============================================================ */
+
+// Botón: Escuchar guía
+document.getElementById('btnPlay').addEventListener('click', () => {
+  if (S.mode !== 'IDLE') return;
+  const ex = S.exercise;
+  document.getElementById('feedbackSection').classList.add('hidden');
+  setStatus('playing', `▶ Reproduciendo: ${ex.name}…`);
+
+  startPlayMode(ex, () => {
+    resizeCanvas(); drawCanvas(ex, 1, null);
+    S.mode = 'IDLE'; setBtns('IDLE');
+    setStatus('idle', 'Guía terminada. Pulsa 🎤 para practicar con micrófono.');
+  });
+  playGuide(ex, null);
+});
+
+// Botón: Practicar con micrófono
+document.getElementById('btnMic').addEventListener('click', async () => {
+  if (S.mode !== 'IDLE') return;
+  const ex = S.exercise;
+  document.getElementById('feedbackSection').classList.add('hidden');
+  setStatus('idle', '⏳ Solicitando micrófono…');
+  setBtns('LISTENING');
+
+  const ok = await startMic();
+  if (!ok) {
+    setStatus('idle', '❌ Micrófono no disponible. Revisa los permisos del navegador.');
+    showToast('⚠️ No se pudo acceder al micrófono.');
+    S.mode = 'IDLE'; setBtns('IDLE');
+    return;
+  }
+
+  setStatus('listening', '🎤 ¡Canta siguiendo la curva!');
+  playGuide(ex, null);
+  startListenMode(ex);
+});
+
+// Botón: Detener
+document.getElementById('btnStop').addEventListener('click', () => {
+  cancelAnim(); stopAudio(); stopMic();
+  S.mode = 'IDLE'; setBtns('IDLE');
+  setStatus('idle', 'Detenido. Selecciona un ejercicio y vuelve a intentarlo.');
+  resizeCanvas(); drawCanvas(S.exercise, 0, null);
+});
+
+// Botón: Reto aleatorio
+document.getElementById('btnRandom').addEventListener('click', () => {
+  const pool = EXERCISES.filter(e=>e.id!=='reto');
+  const rnd  = pool[Math.floor(Math.random()*pool.length)];
+  selectExercise(rnd);
+  showToast(`🎲 Ejercicio aleatorio: ${rnd.emoji} ${rnd.name}`);
+});
+
+// Rango vocal
+document.getElementById('rangeSelect').addEventListener('change', e => {
+  S.range = e.target.value;
+  resizeCanvas(); drawCanvas(S.exercise, 0, null);
+});
+
+// Duración
+document.getElementById('durationSelect').addEventListener('change', e => {
+  S.duration = parseInt(e.target.value, 10);
+});
+
+// Dificultad
+document.getElementById('diffSelect').addEventListener('change', e => {
+  S.difficulty = e.target.value;
+});
+
+// Volumen
+document.getElementById('volSlider').addEventListener('input', e => {
+  S.volume = e.target.value / 100;
+  document.getElementById('volLabel').textContent = e.target.value + '%';
+  // Actualizar ganancia en vivo si está reproduciendo
+  if (S.gainNode && S.audioCtx) {
+    S.gainNode.gain.setTargetAtTime(S.volume * 0.45, S.audioCtx.currentTime, 0.05);
+  }
+});
+
+// Sílabas
+document.getElementById('sylGrid').addEventListener('click', e => {
+  const btn = e.target.closest('.syl-btn');
+  if (!btn) return;
+  document.querySelectorAll('.syl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  S.syllable = btn.dataset.syl;
+  document.getElementById('sylName').textContent = S.syllable;
+  document.getElementById('sylTip').textContent  = SYL_TIPS[S.syllable]||'';
+});
+
+// Panel de explicación (acordeón)
+document.getElementById('explBtn').addEventListener('click', () => {
+  const body = document.getElementById('explBody');
+  const chev = document.getElementById('chevron');
+  const open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+  document.getElementById('explBtn').setAttribute('aria-expanded', open);
+});
+
+// Modo docente: ejercicio aleatorio
+document.getElementById('btnTeacherRnd').addEventListener('click', () => {
+  const pool = EXERCISES.filter(e=>e.id!=='reto'&&e.id!=='libre');
+  const rnd  = pool[Math.floor(Math.random()*pool.length)];
+  selectExercise(rnd);
+  showToast(`👩‍🏫 Ejercicio para clase: ${rnd.emoji} ${rnd.name}`);
+});
+
+// Modo docente: pantalla grande
+document.getElementById('btnBigScreen').addEventListener('click', () => {
+  const ex = resolveExercise(S.exercise);
+  document.getElementById('bigScreenText').textContent = ex.bigText || `${ex.emoji} ${ex.name}`;
+  const ov = document.getElementById('bigScreen');
+  ov.classList.add('show'); ov.focus();
+});
+document.getElementById('bigScreen').addEventListener('click', () => {
+  document.getElementById('bigScreen').classList.remove('show');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('bigScreen').classList.remove('show');
+});
+
+// Resize
+window.addEventListener('resize', () => {
+  resizeCanvas(); drawCanvas(S.exercise, 0, null);
+});
+
+/* ============================================================
+   ■ INICIALIZACIÓN
+   ============================================================ */
+function init() {
+  renderExercises();
+  renderAchievements();
+  resizeCanvas();
+  drawCanvas(S.exercise, 0, null);
+  setBtns('IDLE');
+
+  // Mostrar logo.png si está junto al index.html. Si no existe, usamos un ícono musical.
+  const img = document.getElementById('brandLogo');
+  const fallbackLogo = document.getElementById('lgEm');
+  if (img && fallbackLogo) {
+    img.addEventListener('load', () => {
+      img.style.display = 'block';
+      fallbackLogo.style.display = 'none';
+    });
+    img.addEventListener('error', () => {
+      img.style.display = 'none';
+      fallbackLogo.style.display = 'flex';
+    });
+  }
+
+  // Tip del día (rotación semanal)
+  document.getElementById('teacherTip').textContent =
+    TEACHER_TIPS[new Date().getDay() % TEACHER_TIPS.length];
+}
+
+init();
+</script>
+</body>
+</html>
